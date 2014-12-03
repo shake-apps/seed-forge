@@ -175,7 +175,7 @@ describe('Seed Forge', function() {
       define('Parent', User).extend('User')
         .hook('pre:build', function(next) {
           setImmediate(function() {
-            expect(childHook, 'child hook should be false').to.be.false;
+            expect(childHook, 'child hook should not have been called at this point').to.be.false;
             next.should.be.a('function');
 
             parentHook = true;
@@ -186,7 +186,7 @@ describe('Seed Forge', function() {
       define('Child', User).extend('Parent')
         .hook('pre:build', function(next) {
           setImmediate(function() {
-            expect(parentHook, 'parent hook should be true').to.be.true;
+            expect(parentHook, 'parent hook should have been called at this point').to.be.true;
             next.should.be.a('function');
 
             childHook = true;
@@ -195,8 +195,8 @@ describe('Seed Forge', function() {
         });
 
       factory('Child', function() {
-        expect(parentHook, 'parent hook should be true').to.be.true;
-        expect(childHook, 'child hook should be true').to.be.true;
+        expect(parentHook, 'parent hook should have been called').to.be.true;
+        expect(childHook, 'child hook should have been called').to.be.true;
         done();
       });
     });
